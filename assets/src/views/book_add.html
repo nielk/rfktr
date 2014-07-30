@@ -1,0 +1,148 @@
+<ol id="helpme">
+    <li data-id="tip1">Ajoutez des projets à votre cahier en cliquant dessus.</li>
+    <li data-id="tip2">Vous pouvez afficher les cahiers en ligne ou en blocs selon votre convenance.</li>
+    <li data-id="tip3">Vous pouvez rechercher un projet par mot clé / titre / date ...</li>
+    <li data-id="tip4">Vos projets ajoutés s'affichent dans cette colonne.</li>
+    <li data-id="tip6">Remplissez les champs relatifs aux informations de votre cahier.</li>
+    <li data-id="tip7">Choisissez une image de couverture de grande taille et de bonen qualité, mais en veillant à ne pas dépasser la limite de 5mo.</li>
+    <li data-id="tip8">Choisissez la catégorie dans laquelle mettre le cahier. Vous pouvez créer une catégorie via le formulaire dans le menu de gauche.</li>
+    <li data-id="tip9">Pour finir, choisissez un thème et validez !</li>
+</ol>
+
+<section class="container add_book in">
+    <aside class="sidebar" id="tip1">
+        <h3>Tous les projets</h3>
+        <section class="presentation_style" id="tip2">
+            <article class="block" ng-click="changePresentation('block','all_projects')"><i class="fa fa-th"></i></article>
+            <article class="line" ng-click="changePresentation('line','all_projects')"><i class="fa fa-align-justify"></i></article>
+        </section>
+
+        <section class="search" id="tip3">
+            <input type="search" ng-model="search" placeholder="Tapez un mot clé, une date ..." class="search">
+        </section>
+        <div class="scrollable">
+            <section class="items {{presentation_type.all_projects}}">
+                <article class="item visible" ng-class="{'added' : project.added == true}" ng-repeat="project in projects  | filter : search" ng-click="addToList(project.id)">
+
+                    <section class="project">
+                        <h4>{{project.title}}</h4>
+                        <div class="gradient"></div>
+                        
+                        <div class="image" back-img="{{project.cover}}"></div>
+                        <div class="desc">
+                        <h4>{{project.title}}</h4>
+                        <section class="tags">
+                            <span ng-repeat="tag in project.tags">{{tag}} </span>
+                        </section>
+                        <div class="date">
+                            <span>{{project.date}}</span>
+                        </div>
+                        <div class="books">
+                            <span>Dans {{project.books_count}} cahier</span>
+                        </div>
+                        </div>
+                        <div class="buttons">
+                            
+                        </div>
+                    </section>
+                </article>
+            </section>
+        </div>
+    </aside>
+    <aside class="my_projects" id="tip4">
+        <h3>Cahier</h3>
+        <section class="presentation_style">
+            <article class="block" ng-click="changePresentation('block','my_projects')"><i class="fa fa-th"></i></article>
+            <article class="line"ng-click="changePresentation('line','my_projects')"><i class="fa fa-align-justify"></i></article>
+        </section>
+        <p class="infos">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus error.</p>
+        <div class="scrollable">
+            <section class="items {{presentation_type.my_projects}}">
+                <article class="item notanim" ng-click="openDetails('couv')">
+                    <section class="project">
+                        <div class="couv">
+                            Couverture
+                        </div>
+                    </section>
+                </article>
+                <section class="items_reorder" ui-sortable ng-model="projects_a">
+                    <article class="item notanim" ng-repeat="project_a in projects_a" ng-click="openDetails($index)">
+                        <section class="project">
+                            
+                            <h4>{{project_a.title}}</h4>
+                            <div class="gradient"></div>
+
+                            <div class="image" back-img="{{project_a.cover}}"></div>
+                            <div class="desc">
+                                <h4>{{project_a.title}}</h4>
+                                <section class="tags">
+                                    <span ng-repeat="tag in project_a.tags">{{tag}} </span>
+                                </section>
+                                <div class="date">
+                                    <span>{{project_a.date}}</span>
+                                </div>
+                                <div class="books">
+                                    <span>Dans {{project_a.books_count}} cahier</span>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                
+                            </div>
+                        </section>
+                    </article>
+                </section>
+            </section>
+        </div>
+    </aside>
+    <section class="right_container">
+                
+                <h3 class="toptitle">Création du cahier</h3>
+                <div class="exported" ng-if="book.exported==false">Hors ligne</div>
+                <div class="exported ok" ng-if="book.exported!=false">En ligne : refaktor/{{book.exported}}</div>
+                <div class="clear"></div>
+                <section class="form" id="tip6">
+                    <label>Titre du cahier</label>
+                    <input type="text" ng-model="book.btitle" ng-keyup="bookInfoKeypress()">
+                    <label>Description du cahier</label>
+                    <input type="text" ng-model="book.subtitle">
+                    <label>Infos complémentaires du cahier</label>
+                    <input type="text" ng-model="book.bottomline">
+                    
+                    <div class="cols">
+                        <div class="col image" id="tip7">
+                            <label>Image de couverture</label>
+                            <form action="uploads/upload.php" ng-upload="uploadCoverComplete(content)"> 
+                                <section class="book_cover" ng-style="{'background-image':'url('+book.cover+')'}" ng-class="{'added' : book.cover != ''}">
+                                    <input type="file" name="file" class="file" ng-click="uploadImg()" ng-model="file" data-file></input>
+                                    <span>Ajouter un média</span>
+                                    <input type="submit" class="fileSubmit">
+                                </section>
+                            </form>
+                        </div>
+                        <div class="col" id="tip8">
+                            <label>Catégories</label>
+                            <div class="clear"></div>
+                            <ul class="categories">
+                                <li ng-repeat="category in categories.books" ng-click='selectCategory($index)' ng-class="{'selected' : book.category == category.id}">{{category.title}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    
+
+                </section>
+                
+                <!-- <img src="" alt="" id="cover_generated"> -->
+                <h3 id="tip9">Theme</h3>
+                <ul class="themes">
+                    <li ng-repeat='theme in themes' ng-click="chooseTheme($index)" ng-class="{'actual' : book.theme.id == theme.id}">{{theme.title}}</li>
+                </ul>
+            </div>
+
+    </section>
+    <div class="right_bottom_container">
+        <div class="buttons">
+            <div class="button" ng-click="saveBook()">Enregistrer & prévisualiser</div>
+        </div>
+    </div>
+</section>

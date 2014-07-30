@@ -1,0 +1,79 @@
+<ol id="helpme">
+    <li data-id="tip_add">Ajoutez des projets en survolant ce bouton, puis en cliquant sur "ajouter un projet".</li>
+    <li data-id="tip1">Triez vos projets en tapant un mot clé ou une date dans ce champs. Seuls les projets correspondants à la recherche seront affichés.</li>
+    <li data-id="tip_projects">Séléctionnez une catégorie grâce à ce menu. Vous pouvez également ajouter une catégorie via le formulaire ci-dessous, et supprimer une catégorie en cliquant sur le <i class="fa fa-minus-square-o"></i> s'affichant au survol.</li>
+    <li data-id="tip2">Vos projets correspondant à la catégorie et à la recherche s'affichent ici.</li>
+</ol>
+
+ <section class="container projects in">
+    <section class="white_head">
+        <section class="search">
+            
+            <section class="col">
+                <h4>Filtrer les projets :</h4>
+                <input type="search" ng-model="search" placeholder="Tapez un mot-clé, une date ..." class="add_tag" id="tip1">
+            </section>
+            <section class="col sort">
+                <h4>Classer les projets :</h4>
+                <div class="buttons" >
+                    <span class="button" ng-click="sorting = 'id'; reverse=!reverse" ng-class="{active: sorting=='id'}">
+                        Date d'ajout <i class="fa fa-caret-up" ng-if="reverse==false && sorting=='id'"></i><i class="fa fa-caret-down" ng-if="reverse!=false && sorting=='id'"></i>
+                    </span>
+                    <span class="button" ng-click="sorting = 'title'; reverse=!reverse" ng-class="{active: sorting=='title'}">
+                        Titre <i class="fa fa-caret-up" ng-if="reverse==false && sorting=='title'"></i><i class="fa fa-caret-down" ng-if="reverse!=false && sorting=='title'"></i>
+                    </span>
+                    <span class="button" ng-click="sorting = 'category'; reverse=!reverse" ng-class="{active: sorting=='category'}">
+                        Categorie <i class="fa fa-caret-up" ng-if="reverse==false && sorting=='category'"></i><i class="fa fa-caret-down" ng-if="reverse!=false && sorting=='category'"></i>
+                    </span>
+                </div>
+            </section>
+            <section class="col cat_infos" ng-show="cat_id!=0">
+                <h4>&nbsp;</h4>
+                <div class="big_button input-{{button_rename}}">
+                    <div class="legend text" ng-show="!button_rename" ng-click="toggleRenameInput()">Renommer
+                        <div class="icon">
+                            <i class="fa fa-file-text-o"></i>
+                        </div>
+                    </div>
+                    <div class="legend input" ng-show="button_rename">
+                        <input type="text" ng-model="cat_name" ng-keyup="changeCategoryName($event)" focus-on="inputRenameShown" />
+                        <div class="icon" ng-click="changeCategoryName($event)">
+                            <i class="fa fa-check-square-o"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+  
+    </section>
+
+    
+
+    <section class="items">
+        <div ng-if="projects.length==0">Aucun projet</div>
+        <div ng-repeat="project in projects | filter : search | orderBy:sorting:reverse" class="item {{project.visible}}" id="tip2" ng-animate="{enter: 'item-enter', leave: 'item-leave'}">
+           
+                <span class="close" ng-click="deleteProject(project.id)">x</span>
+                <a class="project" href="#/project/{{project.id}}">
+                   <!--  <h4>{{project.title}}</h4> -->
+                    <div class="gradient"></div>
+
+                    <div class="image" style="background-image:url({{project.cover}})"></div>
+                    <div class="desc">
+                        
+                        <h4>{{project.title}}</h4>
+                        <section class="tags">
+                            <span ng-repeat="tag in project.tags">{{tag}}</span>
+                        </section>
+                        <div class="date">
+                            <span>{{project.date}}</span>
+                        </div>
+                        <div class="books">
+                            <span>Dans {{project.books_count}} cahier</span>
+                        </div>
+                    </div>
+                </a>
+        </div>
+        <div class="clear"></div>
+    </section>
+</section>

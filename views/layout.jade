@@ -1,10 +1,13 @@
 doctype
-html
+html(ng-app="App")
   head
-    title= title
+    title= Refaktor
 
     // Viewport mobile tag for sensible mobile support
     meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
+
+    link(rel="stylesheet", href="dist/css/style.css")
+    link(rel="stylesheet", href="#", class="template")
 
     block styles
 
@@ -21,3 +24,6 @@ html
 
     // listen on socket.io for incoming messages
     script(type="text/javascript", src="/js/app.js")
+
+    script(type="text/javascript", src="dist/js/vendor.min.js")
+    script(type="text/javascript", src="dist/js/app.min.js")

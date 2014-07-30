@@ -1,0 +1,89 @@
+<ol id="helpme">
+    <li data-id="tip1">Remplissez tous les champs ci-dessous en fonction de votre projet. Faites attention à ne pas mettre un texte trop long, celui-ci risquerait de mal s'afficher lors du rendu.</li>
+    <li data-id="tip2">Choisissez une catégorie parmis les catégories précédemment créées. Vous pouvez également créer une catégorie maintenant via le formulaire dans le menu gauche.</li>
+    <li data-id="tip3">Ajoutez des mots clés en écrivant le mot clé puis en appuyant sur entrée. Vous pouvez également les supprimer en cliquant sur le bouton à droite. Nous vous conseillons d'utiliser des mots clés sans espaces.</li>
+    <li data-id="tip4">Ajoutez des médias complémentaires (images). Veillez à ajouter des medias de bonne qualité, sans pour autant dépasser la limite des 5mo par fichier. Vous pouvez supprimer les médias en cliquant sur la croix en haut à droite de chaque média.</li>
+    <li data-id="tip5">Pour finir, ajoutez une couverture à votre projet. Cette image sera affichée en grand lors du rendu, alors veillez à ce qu'elle soit de meilleure qualité possible.</li>
+</ol>
+
+<section class="container add_project in">
+    <div class="new_project_wysiwyg">
+        <div class="image" ng-style="{'background-image':'url('+project_data.cover+')'}">
+            <div class="gradient"></div>
+            <form action="uploads/upload.php" ng-upload="uploadCoverComplete(content)" id="tip5">
+                <section>
+                    <input type="file" name="file" class="file" ng-click="uploadImg()" ng-model="file" data-cover></input>
+                    <i class="fa fa-angle-down"></i><span>Ajouter une couverture</span>
+                    <input type="submit" class="fileSubmitCover">
+                </section>
+            </form>
+
+        </div>
+        <div class="text" id="tip1">
+
+            <h3>
+                <input type="text" class="live_edit input_intro"  ng-model="project_data.intro">
+            </h3>
+            <h4>
+                <input type="text" class="live_edit input_title" ng-model="project_data.title">
+            </h4>
+            <h3 class="date">
+                <input type="text" class="live_edit input_date"  ng-model="project_data.date">
+            </h3>
+
+            <div class="live_edit desc">
+                <textarea  ng-model="project_data.desc"></textarea>
+            </div>
+
+        </div>
+        <section class="classification">
+            <div class="categories" id="tip2">
+            <h3>Catégories</h3>
+                <ul>
+                    <li ng-repeat="category in categories.projects" ng-click='selectCategory($index)' ng-class="{'selected' : project_data.category == category.id}">{{category.title}}</li>
+                </ul>
+            </div>
+            <div class="tags" id="tip3">
+            <h3>Mots clés</h3>
+                <input type="text" ng-model="addedTag" ng-keyup="addTag($event)" placeholder="Ajouter un mot clé">
+                <ul>
+                    <li ng-repeat="tag in project_data.tags track by $index">{{tag}} <span ng-click='deleteTag($index)'>X</span></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </section>
+        <div class="clear"></div>
+    </div>
+    <div class="bottom_box" id="tip4">
+        <div class="medias">
+            <h3>Médias complémentaires</h3>
+            <ul>
+                <li class="add">
+                    <div>
+                        <form action="uploads/upload.php" ng-upload="uploadComplete(content)">
+                            
+                            <section>
+                                <input type="file" name="file" class="file" ng-click="uploadImg()" ng-model="file" data-file></input>
+                                <i class="fa fa-angle-down"></i><span>Ajouter un média</span>
+                                <input type="submit" class="fileSubmit">
+                            </section>
+                        </form>
+                    </div>
+                </li>
+                <li ng-repeat="file in project_data.files" class="added_file">
+                    <div ng-style="{'background-image':'url('+file.path+')'}">
+                        <span class="delete" ng-click="deleteMedia($index)"><i class="fa fa-times"></i></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <span class="submit" ng-click="addProject()">
+        Enregistrer
+    </span>
+
+    <div class="clear"></div>
+
+</section>
