@@ -1,0 +1,2 @@
+# auth
+### a Sails application
